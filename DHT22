@@ -1,0 +1,32 @@
+#include <DHT22.h>
+//define pin data
+#define pinDATA 22 // SDA, or almost any other I/O pin
+
+DHT22 dht22(pinDATA); 
+bool label = true;
+ 
+void setup() {
+  Serial.begin(115200); //1bit=10µs
+  Serial.println("\ntest capteur DTH22");
+}
+
+void loop() {
+
+  while(label){
+    Serial.print("Humidity");
+    Serial.print(", ");
+    Serial.println("Temperature");
+    label = false;
+  }
+  float t = dht22.getTemperature();
+  float h = dht22.getHumidity();
+
+  if (dht22.getLastError() != dht22.OK) {
+    Serial.print("last error :");
+    Serial.println(dht22.getLastError());
+  }
+
+  Serial.print(h);Serial.print(", ");
+  Serial.println(t);
+  delay(60000); //Collecting period should be : >1.7 second
+}
